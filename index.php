@@ -1,20 +1,53 @@
 <?php
-echo "<html><body><table>\n\n";
-$csv = fopen("hd2013.csv", "r");
-	while(($line = fgetcsv($csv)) !== FALSE);
+
+echo "Testing Project";
+
+class mainfunction
+{
+	public static $csvFile;
+	public static $fileHeadings;
+	
+	public static function readCSV($csvFile, $fileHeadings)
 	{
-	$count = 0;
-	echo "<tr>";
-	foreach($line as $cell)
-	{
-		if($count<3)
+		ini_set('auto_detect_line_endings', TRUE);
+		if(($handle = fopen($csvFile, "r")) !== FALSE)
 		{
-			echo "<td>" . htmlspecialchars($cell) . "</td>";
-			$count++;
+			while(($row = fgetcsv($handle, 1000, ",")) !== FALSE)
+			{
+				if($fileHeadings == TRUE)
+				{
+					$heading = $row;
+					$fileHeadings = FALSE;
+				}
+				else 
+				{
+					$record = array_combine($fileHeading, $row);
+					$records[] = $record;
+				}
+			}
+			fclose($handle);
 		}
+		return $records;
 	}
-	echo "<tr>\n";
+	
+	public function printTable($records, $map)
+	{
+		if(empty($_GET))
+		{
+			$i = -1;
+			foreach ($records as $record)
+			{
+				$i++;
+				echo (html_link_table::link("http://web.njit.edu/~ia85/project1/index.php?records=" . $i , $record['INSTNM']));
+				echo '</p>';
+			}
+		}
+		
+		$record = $records[$_GET['record']];
+		$record = array_combine($map, $record);
+		echo(html_link_table::table($record));
+	}
 }
-fclose($csv);
-echo "\n</table></body></html>";
+
+
 ?>
