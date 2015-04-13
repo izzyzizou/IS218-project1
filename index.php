@@ -1,5 +1,5 @@
 <?php
-echo "<p>  testing </p>";
+echo "<p>TESTING </p>";
 class filehandling 
 {
 	public static $file_csv;
@@ -35,7 +35,7 @@ class filehandling
 			foreach($records as $record)
 		{
 				$i++;
-			echo (html_link_table::link("http://web.njit.edu/~nav3/IS218/pc1/index.php?record=" . $i , $record['INSTNM']));
+			echo (html_link_table::link("http://web.njit.edu/~ia85/project1/index.php?record=" . $i , $record['INSTNM']));
 			echo '</p>';
 		}
 	}
@@ -65,6 +65,7 @@ class filehandling
 		return $html;
 		}
 	  }
+	  
 	$newfile = filehandling::readfile_csv("hd2013.csv",TRUE);
 	$newfile2 = filehandling::readfile_csv("data.csv",TRUE);
 	$new_map = map_new_file::create_map($newfile2);
